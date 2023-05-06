@@ -105,8 +105,7 @@ def start():
     cv2.destroyAllWindows()
 
 
-    return render_template('index.html',totalreg=totalreg(),
-                           datetoday2=datetoday2())
+    return render_template('attendanceMarked.html')
 
 
 #### This function will run when we add a new user, Post as we are submitting data to server
@@ -126,12 +125,13 @@ def add():
             cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 0, 20), 2)
             cv2.putText(frame, f'Images Captured: {i}/20', (30, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 20), 2,
                         cv2.LINE_AA)
-            if j % 10 == 0:
+
+            if j % 5 == 0:
                 name = newuserid + '_' + str(i) + '.jpg'
                 cv2.imwrite(userimagefolder + '/' + name, frame[y:y + h, x:x + w])
                 i += 1
             j += 1
-        if j == 200:
+        if j == 100:
             break
         cv2.imshow('Adding new User', frame)
         if cv2.waitKey(1) & 0xFF == ord('c'): #to exit
@@ -139,8 +139,7 @@ def add():
     cv2.destroyAllWindows()
     print('Training Model')
     trainModel.train_model()
-    return render_template('index.html', totalreg=totalreg(),
-                           datetoday2=datetoday2())
+    return render_template('userAdded.html')
 
 @app.route('/attendanceTod', methods=['GET', 'POST'])
 def showAttendance():
